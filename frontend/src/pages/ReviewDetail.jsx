@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, FileCode2 } from "lucide-react";
-import { api, Review } from "@/lib/api";
+import { api } from "@/lib/api";
 import ReviewResults from "@/components/ReviewResults";
 import CommentSection from "@/components/CommentSection";
 
 export default function ReviewDetail() {
-  const { id } = useParams<{ id: string }>();
-  const [review, setReview] = useState<Review | null>(null);
+  const { id } = useParams();
+  const [review, setReview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!id) return;
-    api
-      .getReview(id)
-      .then(setReview)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    api.getReview(id).then(setReview).catch((err) => setError(err.message)).finally(() => setLoading(false));
   }, [id]);
 
   if (loading) {
@@ -43,10 +39,7 @@ export default function ReviewDetail() {
           </div>
           <h1 className="text-lg font-bold text-surface-200 mb-1">Review Not Found</h1>
           <p className="text-sm text-surface-400 mb-5">{error || "This review doesn't exist or has been removed."}</p>
-          <Link to="/" className="btn-glass">
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
+          <Link to="/" className="btn-glass"><ArrowLeft size={16} /> Back to Home</Link>
         </div>
       </div>
     );
@@ -57,36 +50,17 @@ export default function ReviewDetail() {
       <div className="noise" />
       <div className="mx-auto max-w-4xl px-4 py-8 pt-24">
         <Link to="/" className="btn-ghost text-sm mb-6 inline-flex group">
-          <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
-          Back to Home
+          <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-0.5" /> Back to Home
         </Link>
-
         <div className="glass-card mb-6">
           <h1 className="text-xl font-bold text-surface-100">{review.title}</h1>
           <div className="flex items-center gap-3 mt-2 text-xs text-surface-500">
-            <span className="font-mono bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
-              {review.language}
-            </span>
-            <span>
-              {new Date(review.created_at).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </span>
+            <span className="font-mono bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">{review.language}</span>
+            <span>{new Date(review.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
           </div>
         </div>
-
         <div className="space-y-6">
-          <ReviewResults
-            score={review.overall_score}
-            summary={review.summary}
-            issues={review.issues}
-            onBack={() => {}}
-          />
-
+          <ReviewResults score={review.overall_score} summary={review.summary} issues={review.issues} onBack={() => {}} />
           <div className="glass-card">
             <div className="flex items-center gap-2 mb-4">
               <FileCode2 size={18} className="text-primary-400" />
@@ -96,7 +70,6 @@ export default function ReviewDetail() {
               <code>{review.code}</code>
             </pre>
           </div>
-
           <CommentSection reviewId={review.id} />
         </div>
       </div>

@@ -14,16 +14,9 @@ export default function Header() {
               CodeReview <span className="gradient-text">AI</span>
             </span>
           </Link>
-
           <nav className="flex items-center gap-3">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost px-3 py-2 text-xs"
-            >
-              <Github size={16} />
-              GitHub
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn-ghost px-3 py-2 text-xs">
+              <Github size={16} /> GitHub
             </a>
           </nav>
         </div>
