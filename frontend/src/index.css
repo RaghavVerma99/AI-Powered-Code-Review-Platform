@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+  }
+
+  body {
+    @apply bg-surface-950 text-surface-100 antialiased font-sans;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139, 92, 246, 0.08), transparent),
+      radial-gradient(ellipse 50% 40% at 10% 60%, rgba(99, 102, 241, 0.05), transparent);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.03] border border-white/[0.06] backdrop-blur-xl shadow-glass;
+  }
+
+  .glass-hover {
+    @apply glass transition-all duration-300 hover:bg-white/[0.06] hover:border-white/[0.1] hover:shadow-glow;
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl p-6;
+  }
+
+  .glass-input {
+    @apply w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-surface-100 placeholder-surface-500 backdrop-blur-xl transition-all duration-200;
+  }
+
+  .glass-input:focus {
+    @apply border-primary-500/50 bg-white/[0.06] outline-none ring-1 ring-primary-500/20;
+  }
+
+  .glass-select {
+    @apply glass-input appearance-none cursor-pointer;
+  }
+
+  .btn-glass {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-primary-600/90 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-xl shadow-glow transition-all duration-200 hover:bg-primary-500 hover:shadow-glow active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-2.5 text-sm font-semibold text-surface-200 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/[0.12] active:scale-[0.98];
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium backdrop-blur-xl;
+  }
+
+  .tag-error {
+    @apply tag bg-red-500/15 text-red-300 border border-red-500/20;
+  }
+  .tag-warning {
+    @apply tag bg-amber-500/15 text-amber-300 border border-amber-500/20;
+  }
+  .tag-info {
+    @apply tag bg-blue-500/15 text-blue-300 border border-blue-500/20;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-primary-300 to-purple-400;
+  }
+
+  .noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -41,7 +41,7 @@ export interface LanguageOption {
   label: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -72,7 +72,10 @@ export const api = {
   getComments: (reviewId: string) =>
     apiFetch<Comment[]>(`/reviews/${reviewId}/comments`),
 
-  createComment: (reviewId: string, body: { author?: string; body: string; line_number?: number | null }) =>
+  createComment: (
+    reviewId: string,
+    body: { author?: string; body: string; line_number?: number | null }
+  ) =>
     apiFetch<Comment>(`/reviews/${reviewId}/comments`, {
       method: "POST",
       body: JSON.stringify(body),

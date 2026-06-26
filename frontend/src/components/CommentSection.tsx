@@ -1,6 +1,5 @@
-'use client';
-
 import { useState, useEffect } from "react";
+import { MessageSquare, User, Send } from "lucide-react";
 import { api, Comment as CommentType } from "@/lib/api";
 
 interface CommentSectionProps {
@@ -36,50 +35,69 @@ export default function CommentSection({ reviewId }: CommentSectionProps) {
   };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-surface-900 dark:text-white">
-        Comments ({comments.length})
-      </h3>
+    <div className="glass-card">
+      <div className="flex items-center gap-2 mb-5">
+        <MessageSquare size={18} className="text-primary-400" />
+        <h3 className="text-sm font-semibold text-surface-200">
+          Comments ({comments.length})
+        </h3>
+      </div>
 
-      <div className="space-y-3 max-h-80 overflow-y-auto">
+      <div className="space-y-3 max-h-80 overflow-y-auto pr-1 mb-5">
         {comments.length === 0 ? (
-          <p className="text-sm text-surface-400">No comments yet. Be the first!</p>
+          <p className="text-sm text-surface-500 py-4 text-center">
+            No comments yet. Start the conversation.
+          </p>
         ) : (
           comments.map((c) => (
-            <div key={c.id} className="rounded-lg bg-surface-50 dark:bg-surface-800/50 border border-surface-200 dark:border-surface-700 p-3">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-sm font-medium text-surface-700 dark:text-surface-200">
-                  {c.author}
-                </span>
+            <div
+              key={c.id}
+              className="glass rounded-xl p-3 border-white/[0.04] animate-fade-in"
+            >
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-500/15 border border-primary-500/20">
+                  <User size={12} className="text-primary-300" />
+                </div>
+                <span className="text-sm font-medium text-surface-200">{c.author}</span>
                 {c.line_number && (
-                  <span className="text-xs font-mono text-surface-400">Line {c.line_number}</span>
+                  <span className="text-[11px] font-mono text-surface-500">
+                    L{c.line_number}
+                  </span>
                 )}
-                <span className="text-xs text-surface-400 ml-auto">
+                <span className="text-[11px] text-surface-500 ml-auto">
                   {new Date(c.created_at).toLocaleDateString()}
                 </span>
               </div>
-              <p className="text-sm text-surface-600 dark:text-surface-300">{c.body}</p>
+              <p className="text-sm text-surface-300 ml-8">{c.body}</p>
             </div>
           ))
         )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          placeholder="Your name (optional)"
-          className="input-field"
-        />
+        <div className="relative">
+          <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-surface-400" />
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            placeholder="Your name (optional)"
+            className="glass-input pl-10"
+          />
+        </div>
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="Write a comment..."
           rows={2}
-          className="input-field resize-none"
+          className="glass-input resize-none"
         />
-        <button type="submit" disabled={loading || !body.trim()} className="btn-primary">
+        <button
+          type="submit"
+          disabled={loading || !body.trim()}
+          className="btn-glass w-full"
+        >
+          <Send size={14} />
           {loading ? "Posting..." : "Post Comment"}
         </button>
       </form>
